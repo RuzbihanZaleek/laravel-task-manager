@@ -3,7 +3,12 @@
 <ul>
     @foreach($tasks as $task)
     <li>
-        {{$task -> title}}
+        <strong>{{$task -> title}}</strong>
+        {{ $task->description }} -
+        {{ $task->is_completed ? '✅ Done' : '❌ Incomplete' }}
+
+        <a href="/tasks/{{ $task->id }}/edit">Edit</a>
+
         <form action="/tasks/{{ $task-> id }}" method="POST">
             @csrf
             @method('DELETE')

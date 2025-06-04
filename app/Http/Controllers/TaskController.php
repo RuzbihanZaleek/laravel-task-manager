@@ -28,8 +28,32 @@ class TaskController extends Controller
         Task::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            'is_completed' => false
+            'is_completed' => $request->boolean('is_completed'),
         ]);
+        return redirect('/tasks');
+    }
+
+    // task edit form
+    public function edit(Task $task)
+    {
+        return view('tasks.edit', compact('task'));
+    }
+
+    // Update task
+    public function update(Request $request, Task $task)
+    {
+        $request->validate([
+            'title' => 'required',
+            'description' => 'nullable',
+            'is_completed' => 'nullable|boolean',
+        ]);
+
+        $task->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'is_completed' => $request->boolean('is_completed'),
+        ]);
+
         return redirect('/tasks');
     }
 
